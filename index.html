@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slash — IPv4 Subnet Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo"><span class="mark">/</span> Slash</div>
+    <div class="eyebrow">IPv4 subnet calculator</div>
+  </header>
+
+  <section class="hero">
+    <h1>Give it an address. <span class="accent">It does the math.</span></h1>
+    <p>Type an IP and a prefix length — Slash works out the network, broadcast, and usable host range instantly, and shows exactly which bits are doing the work.</p>
+
+    <div class="input-card">
+      <div class="field">
+        <label for="ipInput">IP address</label>
+        <input id="ipInput" type="text" value="192.168.1.0" spellcheck="false" autocomplete="off">
+      </div>
+      <div class="slash">/</div>
+      <div class="field small">
+        <label for="cidrInput">Prefix</label>
+        <input id="cidrInput" type="number" min="0" max="32" value="24">
+      </div>
+      <div class="field">
+        <div class="mask-hint" id="maskHint">= 255.255.255.0</div>
+      </div>
+      <div id="errorMsg">Enter a valid IPv4 address, e.g. 192.168.1.0</div>
+    </div>
+  </section>
+
+  <section class="bitblock">
+    <div class="bitblock-head">
+      <h2>Which bits are network, which are host</h2>
+      <div class="legend">
+        <span><i class="dot n"></i>Network</span>
+        <span><i class="dot h"></i>Host</span>
+      </div>
+    </div>
+
+    <div id="octetRows"></div>
+
+    <div class="slider-row">
+      <input type="range" id="cidrSlider" min="0" max="32" value="24">
+      <div class="cidr-readout" id="cidrReadout">/24 · 256 addresses</div>
+    </div>
+
+    <button class="binary-toggle" id="binToggle">Show the binary math ▾</button>
+    <div class="binary-math" id="binaryMath"></div>
+  </section>
+
+  <section class="results">
+    <h2>Result</h2>
+    <div class="grid" id="resultsGrid"></div>
+  </section>
+
+  <section class="splitter">
+    <h2>Split this network</h2>
+    <p class="desc">Break the network above into smaller, equal-sized subnets.</p>
+    <div class="split-controls">
+      <div class="field">
+        <label for="splitMode">Split by</label>
+        <select id="splitMode">
+          <option value="count">Number of subnets</option>
+          <option value="hosts">Hosts per subnet</option>
+        </select>
+      </div>
+      <div class="field small">
+        <label for="splitValue">Value</label>
+        <input id="splitValue" type="number" min="1" value="4">
+      </div>
+      <button class="btn-primary" id="splitBtn">Split network</button>
+    </div>
+    <div class="split-warning" id="splitWarning"></div>
+    <table id="splitTable" style="display:none">
+      <thead>
+        <tr><th>Subnet</th><th>Network</th><th>First host</th><th>Last host</th><th>Broadcast</th><th>Mask</th></tr>
+      </thead>
+      <tbody id="splitBody"></tbody>
+    </table>
+  </section>
+
+  <footer>Runs entirely in your browser. Nothing you type here is sent anywhere.</footer>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
