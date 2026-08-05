@@ -5,29 +5,60 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slash — IPv4 Subnet Calculator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>
+(function() {
+  var saved = localStorage.getItem('slash-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+})();
+</script>
 </head>
 <body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">/</div>
+      Slash
+    </a>
+    <div class="nav-eyebrow" id="navEyebrow">IPv4 subnet calculator</div>
+  </div>
+  <div class="nav-right">
+    <select class="lang-select" id="langSelect" onchange="changeLang(this.value)">
+      <option value="en">🇬🇧 English</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="ar">🇸🇦 العربية</option>
+      <option value="tr">🇹🇷 Türkçe</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</nav>
+
 <div class="wrap">
 
-  <header>
-    <div class="logo"><span class="mark">/</span> Slash</div>
-    <div class="eyebrow">IPv4 subnet calculator</div>
-  </header>
-
   <section class="hero">
-    <h1>Give it an address. <span class="accent">It does the math.</span></h1>
-    <p>Type an IP and a prefix length — Slash works out the network, broadcast, and usable host range instantly, and shows exactly which bits are doing the work.</p>
+    <div class="hero-eyebrow" id="heroEyebrow">Subnet calculator</div>
+    <h1>
+      <span id="heroTitleMain">Give it an address.</span> <span class="accent" id="heroTitleSpan">It does the math.</span>
+    </h1>
+    <p id="heroSub">Type an IP and a prefix length — Slash works out the network, broadcast, and usable host range instantly, and shows exactly which bits are doing the work.</p>
 
     <div class="input-card">
       <div class="field">
-        <label for="ipInput">IP address</label>
+        <label for="ipInput" id="ipLabel">IP address</label>
         <input id="ipInput" type="text" value="192.168.1.0" spellcheck="false" autocomplete="off">
       </div>
       <div class="slash">/</div>
       <div class="field small">
-        <label for="cidrInput">Prefix</label>
+        <label for="cidrInput" id="prefixLabel">Prefix</label>
         <input id="cidrInput" type="number" min="0" max="32" value="24">
       </div>
       <div class="field">
@@ -39,10 +70,10 @@
 
   <section class="bitblock">
     <div class="bitblock-head">
-      <h2>Which bits are network, which are host</h2>
+      <h2 id="bitsHeading">Which bits are network, which are host</h2>
       <div class="legend">
-        <span><i class="dot n"></i>Network</span>
-        <span><i class="dot h"></i>Host</span>
+        <span><i class="dot n"></i><span id="legendNetwork">Network</span></span>
+        <span><i class="dot h"></i><span id="legendHost">Host</span></span>
       </div>
     </div>
 
@@ -58,41 +89,45 @@
   </section>
 
   <section class="results">
-    <h2>Result</h2>
+    <h2 id="resultsHeading">Result</h2>
     <div class="grid" id="resultsGrid"></div>
   </section>
 
   <section class="splitter">
-    <h2>Split this network</h2>
-    <p class="desc">Break the network above into smaller, equal-sized subnets.</p>
+    <h2 id="splitterHeading">Split this network</h2>
+    <p class="desc" id="splitterDesc">Break the network above into smaller, equal-sized subnets.</p>
     <div class="split-controls">
       <div class="field">
-        <label for="splitMode">Split by</label>
+        <label for="splitMode" id="splitByLabel">Split by</label>
         <select id="splitMode">
-          <option value="count">Number of subnets</option>
-          <option value="hosts">Hosts per subnet</option>
+          <option value="count" id="splitModeCount">Number of subnets</option>
+          <option value="hosts" id="splitModeHosts">Hosts per subnet</option>
         </select>
       </div>
       <div class="field small">
-        <label for="splitValue">Value</label>
+        <label for="splitValue" id="splitValueLabel">Value</label>
         <input id="splitValue" type="number" min="1" value="4">
       </div>
-      <button class="btn-primary" id="splitBtn">Split network</button>
+      <button class="btn btn-primary" id="splitBtn">Split network</button>
     </div>
     <div class="split-warning" id="splitWarning"></div>
     <table id="splitTable" style="display:none">
       <thead>
-        <tr><th>Subnet</th><th>Network</th><th>First host</th><th>Last host</th><th>Broadcast</th><th>Mask</th></tr>
+        <tr>
+          <th id="thSubnet">Subnet</th><th id="thNetwork">Network</th><th id="thFirstHost">First host</th>
+          <th id="thLastHost">Last host</th><th id="thBroadcast">Broadcast</th><th id="thMask">Mask</th>
+        </tr>
       </thead>
       <tbody id="splitBody"></tbody>
     </table>
   </section>
 
-  <footer>Runs entirely in your browser. Nothing you type here is sent anywhere.</footer>
+  <footer id="footerText">Runs entirely in your browser. Nothing you type here is sent anywhere.</footer>
 </div>
 
 <div class="toast" id="toast">Copied</div>
 
+<script src="js/lang.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
