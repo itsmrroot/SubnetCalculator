@@ -6,9 +6,7 @@ Everything runs client-side. No data is ever sent to a server.
 
 ## 🔗 Live demo
 
-> Paste your published link here once it's live (e.g. GitHub Pages):
-
-**[Live site →]()**
+**[Live site →](https://itsmrroot.github.io/SubnetCalculator/)**
 
 ## Features
 
