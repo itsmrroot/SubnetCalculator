@@ -18,13 +18,14 @@
 <body>
 
 <!-- ── NAVBAR ── -->
-<nav>
+<nav id="top">
   <div class="nav-left">
     <a href="index.html" class="nav-logo">
       <div class="logo-icon">/</div>
       Slash
     </a>
     <div class="nav-eyebrow" id="navEyebrow">IPv4 subnet calculator</div>
+    <div class="nav-links"><a href="#learn" id="navLearnLink">Learn</a></div>
   </div>
   <div class="nav-right">
     <select class="lang-select" id="langSelect" onchange="changeLang(this.value)">
@@ -120,6 +121,128 @@
       </thead>
       <tbody id="splitBody"></tbody>
     </table>
+  </section>
+
+  <section class="learn-section" id="learn">
+    <h2 id="learnHeading">How subnetting works</h2>
+    <p class="desc" id="learnIntro">A short walkthrough of the ideas behind the calculator above.</p>
+
+    <!-- Step 1 -->
+    <div class="learn-step">
+      <div class="learn-step-head">
+        <div class="learn-step-num">01</div>
+        <div class="learn-step-title" id="learnS1Title">What is an IP address?</div>
+      </div>
+      <p class="learn-step-text" id="learnS1Text">An IPv4 address is 32 bits long.</p>
+      <div class="diagram-wrap">
+        <div class="diagram-title" id="learnS1DiagTitle">192.168.1.0 as four bytes</div>
+        <div class="diagram-body">
+          <div class="byte-row">
+            <div class="byte-col"><div class="byte-box">192</div><div class="byte-label"><span class="js-byte-label" data-n="1">Byte 1</span></div></div>
+            <div class="byte-col"><div class="byte-box">168</div><div class="byte-label"><span class="js-byte-label" data-n="2">Byte 2</span></div></div>
+            <div class="byte-col"><div class="byte-box">1</div><div class="byte-label"><span class="js-byte-label" data-n="3">Byte 3</span></div></div>
+            <div class="byte-col"><div class="byte-box">0</div><div class="byte-label"><span class="js-byte-label" data-n="4">Byte 4</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="learn-step">
+      <div class="learn-step-head">
+        <div class="learn-step-num">02</div>
+        <div class="learn-step-title" id="learnS2Title">Binary and place values</div>
+      </div>
+      <p class="learn-step-text" id="learnS2Text">Computers only understand 0 and 1.</p>
+      <div class="diagram-wrap">
+        <div class="diagram-title" id="learnS2DiagTitle">192 in binary</div>
+        <div class="diagram-body">
+          <div class="bit-grid">
+            <div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-0">0</div><div class="bit-cell bit-0">0</div>
+            <div class="bit-cell bit-0">0</div><div class="bit-cell bit-0">0</div><div class="bit-cell bit-0">0</div><div class="bit-cell bit-0">0</div>
+          </div>
+          <div class="place-values">
+            <div class="place-value">128</div><div class="place-value">64</div><div class="place-value">32</div><div class="place-value">16</div>
+            <div class="place-value">8</div><div class="place-value">4</div><div class="place-value">2</div><div class="place-value">1</div>
+          </div>
+          <div class="diagram-note" id="learnS2Note">128 + 64 = 192</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="learn-step">
+      <div class="learn-step-head">
+        <div class="learn-step-num">03</div>
+        <div class="learn-step-title" id="learnS3Title">The subnet mask</div>
+      </div>
+      <p class="learn-step-text" id="learnS3Text">The subnet mask marks network vs. host bits.</p>
+      <div class="diagram-wrap">
+        <div class="diagram-title" id="learnS3DiagTitle">255.255.255.0 — network vs. host bits</div>
+        <div class="diagram-body">
+          <div class="byte-row">
+            <div class="bit-grid"><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div></div>
+            <div class="bit-grid"><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div></div>
+            <div class="bit-grid"><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div><div class="bit-cell bit-1">1</div></div>
+            <div class="bit-grid"><div class="bit-cell bit-h">0</div><div class="bit-cell bit-h">0</div><div class="bit-cell bit-h">0</div><div class="bit-cell bit-h">0</div><div class="bit-cell bit-h">0</div><div class="bit-cell bit-h">0</div><div class="bit-cell bit-h">0</div><div class="bit-cell bit-h">0</div></div>
+          </div>
+          <div class="diagram-rule" id="learnS3Rule">1 = network bit | 0 = host bit</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="learn-step">
+      <div class="learn-step-head">
+        <div class="learn-step-num">04</div>
+        <div class="learn-step-title" id="learnS4Title">Prefix length (CIDR)</div>
+      </div>
+      <p class="learn-step-text" id="learnS4Text">/24 is shorthand for the subnet mask.</p>
+      <div class="diagram-wrap">
+        <div class="diagram-title" id="learnS4DiagTitle">/24 = 24 network bits, 8 host bits</div>
+        <div class="diagram-body">
+          <div class="formula">
+            <span class="formula-label" id="learnS4FormulaLabel">Usable hosts</span>
+            <span class="formula-eq">=</span>
+            <span class="formula-expr" id="learnS4FormulaExpr">2^(host bits) − 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="learn-step">
+      <div class="learn-step-head">
+        <div class="learn-step-num">05</div>
+        <div class="learn-step-title" id="learnS5Title">Borrowing bits to make subnets</div>
+      </div>
+      <p class="learn-step-text" id="learnS5Text">Subnetting takes bits from the host part.</p>
+      <div class="diagram-wrap">
+        <div class="diagram-title" id="learnS5DiagTitle">/24 → /26 (2 bits borrowed)</div>
+        <div class="diagram-body">
+          <div class="bit-grid">
+            <div class="bit-cell bit-s">S</div><div class="bit-cell bit-s">S</div><div class="bit-cell bit-h">H</div><div class="bit-cell bit-h">H</div>
+            <div class="bit-cell bit-h">H</div><div class="bit-cell bit-h">H</div><div class="bit-cell bit-h">H</div><div class="bit-cell bit-h">H</div>
+          </div>
+          <div class="learn-legend">
+            <span id="learnS5LegendS">S = subnet bit (borrowed)</span>
+            <span id="learnS5LegendH">H = host bit (remains)</span>
+          </div>
+          <div class="formula">
+            <span class="formula-label" id="learnS5FormulaSubnetsLabel">New subnets</span>
+            <span class="formula-eq">=</span>
+            <span class="formula-expr" id="learnS5FormulaSubnetsExpr">2^(borrowed bits)</span>
+          </div>
+          <div class="formula">
+            <span class="formula-label" id="learnS5FormulaHostsLabel">Hosts per subnet</span>
+            <span class="formula-eq">=</span>
+            <span class="formula-expr" id="learnS5FormulaHostsExpr">2^(remaining host bits) − 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="learn-cta"><a href="#top" id="learnCta">Scroll back up and try it with your own address ↑</a></div>
   </section>
 
   <footer id="footerText">Runs entirely in your browser. Nothing you type here is sent anywhere.</footer>

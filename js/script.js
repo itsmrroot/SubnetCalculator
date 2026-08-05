@@ -288,9 +288,44 @@ function applyLang(){
   document.getElementById('thBroadcast').textContent = L.th.broadcast;
   document.getElementById('thMask').textContent = L.th.mask;
   document.getElementById('footerText').textContent = L.footerText;
+  document.getElementById('navLearnLink').textContent = L.navLearnLink;
+  document.querySelector('.theme-btn').setAttribute('aria-label', L.themeToggleLabel);
 
   const box = document.getElementById('binaryMath');
   document.getElementById('binToggle').textContent = box.classList.contains('show') ? L.binHide : L.binShow;
+
+  // ── Learn section ──
+  document.getElementById('learnHeading').textContent = L.learn.heading;
+  document.getElementById('learnIntro').textContent = L.learn.intro;
+  document.querySelectorAll('.js-byte-label').forEach(el => {
+    el.textContent = `${L.learn.byteLabel} ${el.dataset.n}`;
+  });
+  document.getElementById('learnS1Title').textContent = L.learn.s1Title;
+  document.getElementById('learnS1Text').textContent = L.learn.s1Text;
+  document.getElementById('learnS1DiagTitle').textContent = L.learn.s1DiagTitle;
+  document.getElementById('learnS2Title').textContent = L.learn.s2Title;
+  document.getElementById('learnS2Text').textContent = L.learn.s2Text;
+  document.getElementById('learnS2DiagTitle').textContent = L.learn.s2DiagTitle;
+  document.getElementById('learnS2Note').textContent = L.learn.s2Note;
+  document.getElementById('learnS3Title').textContent = L.learn.s3Title;
+  document.getElementById('learnS3Text').textContent = L.learn.s3Text;
+  document.getElementById('learnS3DiagTitle').textContent = L.learn.s3DiagTitle;
+  document.getElementById('learnS3Rule').textContent = L.learn.s3Rule;
+  document.getElementById('learnS4Title').textContent = L.learn.s4Title;
+  document.getElementById('learnS4Text').textContent = L.learn.s4Text;
+  document.getElementById('learnS4DiagTitle').textContent = L.learn.s4DiagTitle;
+  document.getElementById('learnS4FormulaLabel').textContent = L.learn.s4FormulaLabel;
+  document.getElementById('learnS4FormulaExpr').textContent = L.learn.s4FormulaExpr;
+  document.getElementById('learnS5Title').textContent = L.learn.s5Title;
+  document.getElementById('learnS5Text').textContent = L.learn.s5Text;
+  document.getElementById('learnS5DiagTitle').textContent = L.learn.s5DiagTitle;
+  document.getElementById('learnS5LegendS').textContent = L.learn.s5LegendS;
+  document.getElementById('learnS5LegendH').textContent = L.learn.s5LegendH;
+  document.getElementById('learnS5FormulaSubnetsLabel').textContent = L.learn.s5FormulaSubnetsLabel;
+  document.getElementById('learnS5FormulaSubnetsExpr').textContent = L.learn.s5FormulaSubnetsExpr;
+  document.getElementById('learnS5FormulaHostsLabel').textContent = L.learn.s5FormulaHostsLabel;
+  document.getElementById('learnS5FormulaHostsExpr').textContent = L.learn.s5FormulaHostsExpr;
+  document.getElementById('learnCta').textContent = L.learn.cta;
 
   const sel = document.getElementById('langSelect');
   if (sel) sel.value = currentLang;

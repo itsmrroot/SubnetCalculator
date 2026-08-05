@@ -70,7 +70,18 @@ nav {
   color:var(--text3); text-transform:uppercase; border:1px solid var(--border2);
   padding:5px 11px; border-radius:100px; white-space:nowrap;
 }
+.nav-links { display: flex; gap: 2px; }
+.nav-links a {
+  font-size: 13px; color: var(--text2);
+  text-decoration: none; padding: 6px 11px;
+  border-radius: var(--radius);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.nav-links a:hover { background: var(--bg3); color: var(--text); }
 .nav-right { display: flex; align-items: center; gap: 6px; }
+
+@media (max-width: 760px) { .nav-links{ display:none; } }
 .lang-select {
   font-family: var(--sans); font-size: 13px;
   background: var(--bg2); border: 1px solid var(--border);
@@ -268,8 +279,84 @@ footer {
 }
 
 /* ══════════════
+   LEARN SECTION
+══════════════ */
+.learn-section{ margin-top:64px; }
+.learn-section > h2{ font-size:18px; font-weight:600; margin:0 0 6px; }
+.learn-section > p.desc{ color:var(--text2); font-size:14px; margin:0 0 28px; max-width:65ch; }
+
+.learn-step{ background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:22px 24px; margin-bottom:16px; box-shadow:var(--shadow); }
+.learn-step-head{ display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+.learn-step-num{
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent2),var(--purple));
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono); font-size:13px; font-weight:600; color:#fff;
+}
+.learn-step-title{ font-size:15px; font-weight:600; }
+.learn-step-text{ font-size:13.5px; color:var(--text2); line-height:1.7; margin:0 0 16px; }
+
+.diagram-wrap{ background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius); overflow:hidden; }
+.diagram-title{ background:var(--bg2); border-bottom:1px solid var(--border2); padding:8px 14px; font-family:var(--mono); font-size:11px; color:var(--text3); }
+.diagram-body{ padding:16px; overflow-x:auto; }
+
+.byte-row{ display:flex; gap:8px; align-items:flex-start; flex-wrap:wrap; }
+.byte-col{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+.byte-box{ font-family:var(--mono); font-size:13px; font-weight:600; padding:8px 14px; border-radius:6px; border:1px solid rgba(88,166,255,0.4); background:rgba(31,111,235,0.12); color:var(--accent); min-width:56px; text-align:center; }
+.byte-label{ font-size:11px; color:var(--text3); }
+
+.bit-grid{ display:flex; gap:3px; flex-wrap:wrap; }
+.bit-cell{ font-family:var(--mono); font-size:13px; font-weight:600; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:5px; border:1px solid; flex-shrink:0; }
+.bit-1{ background:rgba(31,111,235,0.15); border-color:rgba(88,166,255,0.4); color:var(--accent); }
+.bit-0{ background:var(--bg2); border-color:var(--border); color:var(--text3); }
+.bit-h{ background:rgba(63,185,80,0.12); border-color:rgba(63,185,80,0.4); color:var(--green); }
+.bit-s{ background:rgba(188,140,255,0.15); border-color:rgba(188,140,255,0.4); color:var(--purple); }
+
+.place-values{ display:flex; gap:3px; flex-wrap:wrap; margin-top:6px; }
+.place-value{ font-family:var(--mono); font-size:10px; color:var(--text3); width:32px; text-align:center; flex-shrink:0; }
+
+.diagram-note{ font-size:12px; color:var(--text3); margin-top:10px; font-family:var(--mono); }
+.diagram-rule{ font-size:12px; color:var(--text2); margin-top:10px; font-family:var(--mono); }
+
+.formula{
+  background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius);
+  padding:12px 16px; font-family:var(--mono); font-size:13px; margin-top:14px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.formula-label{ color:var(--text2); }
+.formula-expr{ color:var(--accent); }
+.formula-eq{ color:var(--text3); }
+
+.learn-legend{ display:flex; gap:16px; font-family:var(--mono); font-size:11px; color:var(--text3); margin-top:10px; flex-wrap:wrap; }
+
+.learn-cta{ text-align:center; margin-top:28px; }
+.learn-cta a{ font-family:var(--mono); font-size:13px; color:var(--accent); text-decoration:none; }
+.learn-cta a:hover{ text-decoration:underline; }
+
+/* ══════════════
    RTL support
+   Prose and UI chrome follow the reading direction; anything that
+   encodes numeric/bit order (addresses, bit grids, tables) is
+   pinned LTR so borrowed/network bits don't visually reverse.
 ══════════════ */
 body[dir="rtl"] .octet-value{ text-align:left; }
 body[dir="rtl"] tbody td:first-child{ color:var(--accent); }
-body[dir="rtl"] .nav-eyebrow, body[dir="rtl"] .hero-eyebrow{ direction:ltr; }
+body[dir="rtl"] .nav-eyebrow,
+body[dir="rtl"] .hero-eyebrow{ direction:ltr; }
+
+body[dir="rtl"] .input-card,
+body[dir="rtl"] .cells,
+body[dir="rtl"] .bm-bits,
+body[dir="rtl"] .byte-row,
+body[dir="rtl"] .bit-grid,
+body[dir="rtl"] .place-values,
+body[dir="rtl"] table{
+  direction:ltr;
+}
+body[dir="rtl"] table{ text-align:left; }
+body[dir="rtl"] thead th,
+body[dir="rtl"] tbody td{ text-align:left; }
+
+/* .stat label/value right-align automatically under dir=rtl (text-align:start);
+   the copy button must move to the opposite corner or it collides with the label. */
+body[dir="rtl"] .copy-btn{ right:auto; left:12px; }
