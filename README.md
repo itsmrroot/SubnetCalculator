@@ -19,6 +19,7 @@ Everything runs client-side. No data is ever sent to a server.
 - **Dark / light mode** — toggle in the nav bar, persisted across visits.
 - **6 languages** — English, Deutsch, العربية, Türkçe, Français, Español, including right-to-left layout for Arabic. Every label, result, table header, and tutorial paragraph is translated; IP addresses, bit grids, and tables stay left-to-right in every language since that's how the notation actually reads.
 - **Copy to clipboard** — every result field has a one-click copy button, with a toast confirmation.
+- **"Explain" button** — every result field also has a `?` button that opens a modal showing exactly how that value was calculated from your specific IP and prefix (bitwise AND/OR, the RFC 3021 `/31` and `/32` edge cases, IP class ranges, private/public/loopback/link-local reasoning), translated into all 6 languages. Fully keyboard-accessible: opening the modal moves focus to its close button, and closing it (Escape, backdrop click, or the close button) returns focus to whichever `?` button opened it.
 - **No build step, no dependencies** — plain HTML, CSS, and JavaScript.
 
 ## Project structure
