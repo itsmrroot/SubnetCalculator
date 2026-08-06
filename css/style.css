@@ -212,15 +212,38 @@ nav {
 .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
 .stat{
   background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:15px 17px;
-  display:flex; flex-direction:column; gap:6px; position:relative; box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:6px; box-shadow:var(--shadow);
 }
+.stat-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
 .stat .k{ font-family:var(--mono); font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:0.08em; }
 .stat .v{ font-family:var(--mono); font-size:16px; color:var(--text); word-break:break-all; }
-.copy-btn{
-  position:absolute; top:12px; right:12px; background:none; border:none; color:var(--text3);
-  cursor:pointer; font-size:11px; font-family:var(--mono); padding:4px 6px; border-radius:6px;
+.stat-actions{ display:flex; gap:2px; flex-shrink:0; }
+.copy-btn, .explain-btn{
+  background:none; border:none; color:var(--text3);
+  cursor:pointer; font-size:11px; font-family:var(--mono); padding:4px 6px; border-radius:6px; flex-shrink:0;
 }
-.copy-btn:hover{ color:var(--accent); background:rgba(88,166,255,0.1); }
+.copy-btn:hover, .explain-btn:hover{ color:var(--accent); background:rgba(88,166,255,0.1); }
+
+/* ══════════════
+   EXPLAIN MODAL
+══════════════ */
+.modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500;
+  align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.show{ display:flex; }
+.modal{
+  background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg);
+  max-width:440px; width:100%; padding:20px 22px; box-shadow:0 10px 40px rgba(0,0,0,0.35);
+}
+.modal-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+.modal-head h3{ font-size:15px; font-weight:600; margin:0; }
+.modal-close{
+  background:none; border:none; color:var(--text3); cursor:pointer; font-size:20px;
+  line-height:1; padding:2px 6px; border-radius:6px; flex-shrink:0;
+}
+.modal-close:hover{ color:var(--accent); background:rgba(88,166,255,0.1); }
+.modal-body{ font-size:14px; color:var(--text2); white-space:pre-line; }
 
 /* ══════════════
    SPLITTER
@@ -357,6 +380,3 @@ body[dir="rtl"] table{ text-align:left; }
 body[dir="rtl"] thead th,
 body[dir="rtl"] tbody td{ text-align:left; }
 
-/* .stat label/value right-align automatically under dir=rtl (text-align:start);
-   the copy button must move to the opposite corner or it collides with the label. */
-body[dir="rtl"] .copy-btn{ right:auto; left:12px; }

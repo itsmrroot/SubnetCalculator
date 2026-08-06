@@ -75,6 +75,7 @@ function calculate(ipStr, cidr){
 
 // ---------- state ----------
 let state = { ip: '192.168.1.0', cidr: 24 };
+let lastResult = null;
 
 const ipInput = document.getElementById('ipInput');
 const cidrInput = document.getElementById('cidrInput');
@@ -141,25 +142,33 @@ function renderResults(r){
   const usableDisplay = r.usableCode === 'p2p' ? L.p2pSuffix : String(r.usableCode);
 
   const items = [
-    [L.res.network, r.networkStr],
-    [L.res.broadcast, r.broadcastStr],
-    [L.res.firstHost, r.firstStr],
-    [L.res.lastHost, r.lastStr],
-    [L.res.total, r.total.toLocaleString()],
-    [L.res.usable, usableDisplay],
-    [L.res.mask, r.maskStr],
-    [L.res.wildcard, r.wildcardStr],
-    [L.res.ipClass, ipClassDisplay],
-    [L.res.addrType, addrTypeDisplay],
+    ['network', L.res.network, r.networkStr],
+    ['broadcast', L.res.broadcast, r.broadcastStr],
+    ['firstHost', L.res.firstHost, r.firstStr],
+    ['lastHost', L.res.lastHost, r.lastStr],
+    ['total', L.res.total, r.total.toLocaleString()],
+    ['usable', L.res.usable, usableDisplay],
+    ['mask', L.res.mask, r.maskStr],
+    ['wildcard', L.res.wildcard, r.wildcardStr],
+    ['ipClass', L.res.ipClass, ipClassDisplay],
+    ['addrType', L.res.addrType, addrTypeDisplay],
   ];
   const grid = document.getElementById('resultsGrid');
   grid.innerHTML = '';
-  items.forEach(([k,v]) => {
+  items.forEach(([id,k,v]) => {
     const el = document.createElement('div');
     el.className = 'stat';
-    el.innerHTML = `<div class="k">${k}</div><div class="v">${v}</div><button class="copy-btn" data-copy="${v}">${L.copyLabel}</button>`;
+    el.innerHTML = `<div class="stat-head">
+        <div class="k">${k}</div>
+        <div class="stat-actions">
+          <button class="explain-btn" data-explain="${id}" title="${L.explainLabel}">?</button>
+          <button class="copy-btn" data-copy="${v}">${L.copyLabel}</button>
+        </div>
+      </div>
+      <div class="v">${v}</div>`;
     grid.appendChild(el);
   });
+  lastResult = r;
 }
 
 function renderBinaryMath(r){
@@ -200,11 +209,13 @@ document.getElementById('binToggle').addEventListener('click', (e) => {
   e.target.textContent = box.classList.contains('show') ? L.binHide : L.binShow;
 });
 
-// copy buttons (event delegation)
+// copy + explain buttons (event delegation)
 document.getElementById('resultsGrid').addEventListener('click', (e) => {
-  const btn = e.target.closest('.copy-btn');
-  if(!btn) return;
-  navigator.clipboard.writeText(btn.dataset.copy).then(showToast);
+  const copyBtn = e.target.closest('.copy-btn');
+  if(copyBtn){ navigator.clipboard.writeText(copyBtn.dataset.copy).then(showToast); return; }
+
+  const explainBtn = e.target.closest('.explain-btn');
+  if(explainBtn) openExplain(explainBtn.dataset.explain);
 });
 function showToast(){
   const t = document.getElementById('toast');
@@ -213,6 +224,27 @@ function showToast(){
   clearTimeout(showToast._t);
   showToast._t = setTimeout(() => t.classList.remove('show'), 1400);
 }
+
+// ---------- explain modal ----------
+function openExplain(id){
+  if(!lastResult) return;
+  const L = getLang();
+  const fn = L.explain[id];
+  if(!fn) return;
+  document.getElementById('explainTitle').textContent = L.res[id];
+  document.getElementById('explainBody').textContent = fn(lastResult);
+  document.getElementById('explainOverlay').classList.add('show');
+}
+function closeExplain(){
+  document.getElementById('explainOverlay').classList.remove('show');
+}
+document.getElementById('explainClose').addEventListener('click', closeExplain);
+document.getElementById('explainOverlay').addEventListener('click', (e) => {
+  if(e.target.id === 'explainOverlay') closeExplain();
+});
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') closeExplain();
+});
 
 // ---------- splitter ----------
 document.getElementById('splitBtn').addEventListener('click', () => {
@@ -290,6 +322,7 @@ function applyLang(){
   document.getElementById('footerText').textContent = L.footerText;
   document.getElementById('navLearnLink').textContent = L.navLearnLink;
   document.querySelector('.theme-btn').setAttribute('aria-label', L.themeToggleLabel);
+  document.getElementById('explainClose').setAttribute('aria-label', L.modalCloseLabel);
 
   const box = document.getElementById('binaryMath');
   document.getElementById('binToggle').textContent = box.classList.contains('show') ? L.binHide : L.binShow;
