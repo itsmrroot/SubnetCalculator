@@ -161,7 +161,7 @@ function renderResults(r){
     el.innerHTML = `<div class="stat-head">
         <div class="k">${k}</div>
         <div class="stat-actions">
-          <button class="explain-btn" data-explain="${id}" title="${L.explainLabel}">?</button>
+          <button class="explain-btn" data-explain="${id}" title="${L.explainLabel}" aria-label="${L.explainLabel}">?</button>
           <button class="copy-btn" data-copy="${v}">${L.copyLabel}</button>
         </div>
       </div>
@@ -215,7 +215,7 @@ document.getElementById('resultsGrid').addEventListener('click', (e) => {
   if(copyBtn){ navigator.clipboard.writeText(copyBtn.dataset.copy).then(showToast); return; }
 
   const explainBtn = e.target.closest('.explain-btn');
-  if(explainBtn) openExplain(explainBtn.dataset.explain);
+  if(explainBtn) openExplain(explainBtn.dataset.explain, explainBtn);
 });
 function showToast(){
   const t = document.getElementById('toast');
@@ -226,17 +226,21 @@ function showToast(){
 }
 
 // ---------- explain modal ----------
-function openExplain(id){
+let explainTrigger = null;
+function openExplain(id, triggerEl){
   if(!lastResult) return;
   const L = getLang();
   const fn = L.explain[id];
   if(!fn) return;
+  explainTrigger = triggerEl || null;
   document.getElementById('explainTitle').textContent = L.res[id];
   document.getElementById('explainBody').textContent = fn(lastResult);
   document.getElementById('explainOverlay').classList.add('show');
+  document.getElementById('explainClose').focus();
 }
 function closeExplain(){
   document.getElementById('explainOverlay').classList.remove('show');
+  if(explainTrigger){ explainTrigger.focus(); explainTrigger = null; }
 }
 document.getElementById('explainClose').addEventListener('click', closeExplain);
 document.getElementById('explainOverlay').addEventListener('click', (e) => {
