@@ -14,7 +14,7 @@ Everything runs client-side. No data is ever sent to a server.
 - **Interactive bit visualizer** — every bit of the address is rendered as a clickable cell, color-coded network (blue) vs. host (green). Click any bit to jump the prefix length to that point.
 - **CIDR slider** — drag to change the prefix length from /0 to /32 and watch every result update live.
 - **Binary math view** — toggle a panel showing the IP, mask, and resulting network address in raw binary, colored by network/host bits.
-- **Network splitter** — break the current network into smaller equal-sized subnets, either by specifying how many subnets you need or how many hosts per subnet. Results are shown in a table with network, first host, last host, broadcast, and mask for each subnet.
+- **Network splitter** — break the current network into smaller equal-sized subnets, either by specifying how many subnets you need or how many hosts per subnet. Results are shown in a table with network, available (usable host) range, broadcast, and mask for each subnet.
 - **"How subnetting works" tutorial** — a five-step walkthrough built into the page (IP address structure → binary place values → subnet masks → CIDR prefixes → borrowing bits to make subnets), with diagrams and worked formulas, ending with a link back to the calculator.
 - **Dark / light mode** — toggle in the nav bar, persisted across visits.
 - **6 languages** — English, Deutsch, العربية, Türkçe, Français, Español, including right-to-left layout for Arabic. Every label, result, table header, and tutorial paragraph is translated; IP addresses, bit grids, and tables stay left-to-right in every language since that's how the notation actually reads.

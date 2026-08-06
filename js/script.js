@@ -289,7 +289,7 @@ document.getElementById('splitBtn').addEventListener('click', () => {
     const netInt = (base.network + i*blockSize) >>> 0;
     const sub = calculate(intToIp(netInt), newCidr);
     const row = document.createElement('tr');
-    row.innerHTML = `<td>${i+1}</td><td>${sub.networkStr}/${newCidr}</td><td>${sub.firstStr}</td><td>${sub.lastStr}</td><td>${sub.broadcastStr}</td><td>${sub.maskStr}</td>`;
+    row.innerHTML = `<td>${i+1}</td><td>${sub.networkStr}/${newCidr}</td><td>${sub.firstStr} – ${sub.lastStr}</td><td>${sub.broadcastStr}</td><td>${sub.maskStr}</td>`;
     tbody.appendChild(row);
   }
   document.getElementById('splitTable').style.display = 'table';
@@ -319,8 +319,7 @@ function applyLang(){
   document.getElementById('splitBtn').textContent = L.splitBtnLabel;
   document.getElementById('thSubnet').textContent = L.th.subnet;
   document.getElementById('thNetwork').textContent = L.th.network;
-  document.getElementById('thFirstHost').textContent = L.th.firstHost;
-  document.getElementById('thLastHost').textContent = L.th.lastHost;
+  document.getElementById('thAvailableRange').textContent = L.th.availableRange;
   document.getElementById('thBroadcast').textContent = L.th.broadcast;
   document.getElementById('thMask').textContent = L.th.mask;
   document.getElementById('footerText').textContent = L.footerText;
